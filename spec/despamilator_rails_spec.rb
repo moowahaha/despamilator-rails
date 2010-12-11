@@ -1,26 +1,47 @@
-require File.dirname(__FILE__) + '/../lib/despamilator_rails.rb'
-
-class TestClass
-  include DespamilatorRails
-
-  attr_accessor :text
-end
-
 describe 'despamilator validation' do
 
-  it "should validate my field" do
-    tc = TestClass.new
-    tc.text = 'asdasd'
+  it "should detect spam in a single field" do
+    fixture           = SingleFieldTestClass.new
+    fixture.text      = 'asdasd'
 
     fake_despamilator = mock('despamilator')
     Despamilator.should_receive(:new).and_return(fake_despamilator)
     fake_despamilator.should_receive(:score).and_return(2)
 
-    fake_errors = mock('errors')
-    tc.should_receive(:errors).and_return(fake_errors)
-    fake_errors.should_receive(:add).with(:text, "has exceeded the spam threshold of 1")
+    Kernel.should_receive(:warn).with('text (asdasd) = 2')
+    fixture.validate
+  end
 
-    tc.validates_despamilation_of(:text, :threshold => 1)
+  it "should ignore clean fields" do
+    fixture           = SingleFieldTestClass.new
+    fixture.text      = 'asdasd'
+
+    fake_despamilator = mock('despamilator')
+    Despamilator.should_receive(:new).and_return(fake_despamilator)
+    fake_despamilator.should_receive(:score).and_return(0)
+
+    Kernel.should_not_receive(:warn)
+    fixture.validate
+  end
+
+  it "should detect spam in multiple fields" do
+    fixture           = MultipleFieldTestClass.new
+    fixture.text1     = 'asdasd1'
+    fixture.text2     = 'asdasd2'
+
+    fake_despamilator = mock('despamilator')
+    Despamilator.should_receive(:new).twice.and_return(fake_despamilator)
+    fake_despamilator.should_receive(:score).twice.and_return(2)
+
+    Kernel.should_receive(:warn).with('text1 (asdasd1) = 2').once.ordered
+    Kernel.should_receive(:warn).with('text2 (asdasd2) = 2').once.ordered
+
+    fixture.validate
+  end
+
+  it "should throw an error if no threshold is supplied" do
+    fixture = MissingThresholdTestClass.new
+    -> {fixture.validate}.should raise_error('A threshold score must be supplied')
   end
 
 end

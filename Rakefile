@@ -16,6 +16,7 @@ require 'newgem/tasks'
 Dir['tasks/**/*.rake'].each { |t| load t }
 
 task :default => [:spec]
+task :test => [:spec]
 
 task :cultivate do
   sh "touch Manifest.txt; rake check_manifest |grep -v \"(in \" | patch"

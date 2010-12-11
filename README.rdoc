@@ -12,15 +12,33 @@ FIX (describe your package)
 
 == SYNOPSIS:
 
-    # in your environment.rb
+In your environment.rb:
+
     require 'despamilator/validation'
 
-    # in your model
+In your model:
+
     include DespamilatorValidation
 
     def validate
-      validates_despamilation_of :text, :threshold => 1
+
+      # single field
+      validates_despamilation_of :some_field, :threshold => 1 do |result_object|
+        # this will be called when something breaches the threshold
+
+        result_object.score #=> spam score
+        result_object.threshold #=> the threshold you passed in
+        result_object.field #=> the field that matched
+        result_object.text #=> the text in question
+      end
+
+      # multiple fields
+      validates_despamilation_of [:some_field, :another_field], :threshold => 1 do |result_object|
+        # this will be called when something breaches the threshold
+      end
     end
+
+See the various examples in "spec/fixtures".
 
 == REQUIREMENTS:
 

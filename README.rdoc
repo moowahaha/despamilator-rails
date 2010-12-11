@@ -14,7 +14,7 @@ FIX (describe your package)
 
 In your environment.rb:
 
-    require 'despamilator/validation'
+    require 'despamilator_rails'
 
 In your model:
 

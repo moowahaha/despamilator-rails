@@ -10,6 +10,7 @@ gem 'despamilator', :git => 'git://github.com/moowahaha/despamilator.git'
 
 group :test do
   gem 'rspec', '>= 2.4.0'
+  gem 'sqlite3', '>= 0.1.1'
   gem 'activerecord', '>= 2.3.4'
   gem 'one_hundred_percent_coverage'
 end

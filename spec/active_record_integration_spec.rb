@@ -1,9 +1,4 @@
-ActiveRecord::Base.establish_connection(
-        :adapter => 'sqlite3',
-        :database => File.dirname(__FILE__) + '/fixtures/test.sqlite3'
-)
-
-describe "activerecord integration" do
+describe "active_record integration" do
   it "should check for spam on save" do
     some_instance = SomeModel.new
 

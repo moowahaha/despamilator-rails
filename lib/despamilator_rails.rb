@@ -9,14 +9,9 @@ module DespamilatorRails
     
     [attr_names].flatten.each do |attribute|
       text  = self.send(attribute)
-      score = Despamilator.new(text).score
+      dspam = Despamilator.new(text)
 
-      yield(OpenStruct.new({
-                               :field     => attribute,
-                               :text      => text,
-                               :score     => score,
-                               :threshold => threshold
-      })) if score >= threshold
+      yield(dspam) if dspam.score >= threshold
     end
   end
 end

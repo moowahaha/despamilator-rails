@@ -8,7 +8,7 @@ describe 'despamilator validation' do
     Despamilator.should_receive(:new).and_return(fake_despamilator)
     fake_despamilator.should_receive(:score).and_return(2)
 
-    Kernel.should_receive(:warn).with('text (asdasd) = 2')
+    fixture.should_receive(:result).with(fake_despamilator)
     fixture.validate
   end
 
@@ -20,21 +20,23 @@ describe 'despamilator validation' do
     Despamilator.should_receive(:new).and_return(fake_despamilator)
     fake_despamilator.should_receive(:score).and_return(0)
 
-    Kernel.should_not_receive(:warn)
+    fixture.should_not_receive(:result).with(fake_despamilator)
+
     fixture.validate
   end
 
   it "should detect spam in multiple fields" do
     fixture           = MultipleFieldTestClass.new
-    fixture.text1     = 'asdasd1'
-    fixture.text2     = 'asdasd2'
 
-    fake_despamilator = mock('despamilator')
-    Despamilator.should_receive(:new).twice.and_return(fake_despamilator)
-    fake_despamilator.should_receive(:score).twice.and_return(2)
+    1.upto(2) do |i|
+      fixture.send("text#{i}=", 'blahblah')
 
-    Kernel.should_receive(:warn).with('text1 (asdasd1) = 2').once.ordered
-    Kernel.should_receive(:warn).with('text2 (asdasd2) = 2').once.ordered
+      fake_despamilator = mock("despamilator#{i}")
+      Despamilator.should_receive(:new).ordered.and_return(fake_despamilator)
+      fake_despamilator.should_receive(:score).once.and_return(2)
+
+      fixture.should_receive(:result).ordered.with(fake_despamilator)
+    end
 
     fixture.validate
   end

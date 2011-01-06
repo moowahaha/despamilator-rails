@@ -1,9 +1,16 @@
+GIT
+  remote: git://github.com/moowahaha/despamilator.git
+  revision: a2e1d6b0a998de335346447989e43cb8835f91ba
+  specs:
+    despamilator (1.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
     RedCloth (4.2.3)
+    activerecord (2.3.10)
+      activesupport (= 2.3.10)
     activesupport (2.3.10)
-    despamilator (1.0)
     diff-lcs (1.1.2)
     hoe (2.8.0)
       rake (>= 0.8.7)
@@ -16,14 +23,14 @@ GEM
     one_hundred_percent_coverage (0.0.2)
       simplecov (>= 0.3.7)
     rake (0.8.7)
-    rspec (2.2.0)
-      rspec-core (~> 2.2)
-      rspec-expectations (~> 2.2)
-      rspec-mocks (~> 2.2)
-    rspec-core (2.2.1)
-    rspec-expectations (2.2.0)
+    rspec (2.4.0)
+      rspec-core (~> 2.4.0)
+      rspec-expectations (~> 2.4.0)
+      rspec-mocks (~> 2.4.0)
+    rspec-core (2.4.0)
+    rspec-expectations (2.4.0)
       diff-lcs (~> 1.1.2)
-    rspec-mocks (2.2.0)
+    rspec-mocks (2.4.0)
     rubigen (1.5.5)
       activesupport (~> 2.3.5)
     simplecov (0.3.7)
@@ -35,8 +42,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  despamilator (>= 1.0)
+  activerecord (>= 2.3.4)
+  despamilator!
   hoe (>= 2.7.0)
   newgem (>= 1.5.3)
   one_hundred_percent_coverage
-  rspec (>= 2.0.1)
+  rspec (>= 2.4.0)

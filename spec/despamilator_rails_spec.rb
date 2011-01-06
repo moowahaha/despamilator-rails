@@ -6,7 +6,7 @@ describe "despamilator_rails" do
 
       -> {
       class SomeModel < ActiveRecord::Base
-        validates_despamilation_of :some_field, :threshold => nil do
+        validates_despamilation_of [:some_field], :threshold => nil do
         end
       end
       }.should raise_error('A threshold score must be supplied')
@@ -30,7 +30,7 @@ describe "despamilator_rails" do
 
         -> {
         class SomeModel < ActiveRecord::Base
-          validates_despamilation_of '', :threshold => 1 do
+          validates_despamilation_of [''], :threshold => 1 do
           end
         end
         }.should raise_error('At least one attribute must be defined')
@@ -43,7 +43,7 @@ describe "despamilator_rails" do
 
       -> {
       class SomeModel < ActiveRecord::Base
-        validates_despamilation_of :some_field, :threshold => 1
+        validates_despamilation_of [:some_field], :threshold => 1
       end
       }.should raise_error('Missing block')
 

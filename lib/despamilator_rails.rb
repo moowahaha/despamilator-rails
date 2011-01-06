@@ -24,7 +24,7 @@ module ActiveRecord
     def self.validates_despamilation_of attr_names, settings, &block
       @@despamilator ||= {}
 
-      clean_attributes = [attr_names].flatten.reject do |attribute|
+      clean_attributes = attr_names.reject do |attribute|
         attribute.blank?
       end
 

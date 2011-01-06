@@ -21,7 +21,7 @@ In your model:
 
     class YourModel < ActiveRecord::Base
 
-      validates_despamilation_of :some_field, :threshold => 1 do |despamilator_object|
+      validates_despamilation_of [:some_field], :threshold => 1 do |despamilator_object|
         raise "Was spam!"
       end
 

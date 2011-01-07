@@ -6,13 +6,11 @@ History.txt
 Manifest.txt
 README.rdoc
 Rakefile
-despamilator_rails.gemspec
+bob.rb
+despamilator-rails.gemspec
 lib/despamilator_rails.rb
 spec/active_record_integration_spec.rb
 spec/despamilator_rails_spec.rb
 spec/fixtures/active_record_test_class.rb
-spec/fixtures/missing_threshold_test_class.rb
-spec/fixtures/multiple_field_test_class.rb
-spec/fixtures/single_field_test_class.rb
 spec/fixtures/test.sqlite3
 spec/spec_helper.rb

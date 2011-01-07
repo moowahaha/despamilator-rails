@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Stephen Hardisty"]
-  s.date = %q{2011-01-06}
+  s.date = %q{2011-01-07}
   s.description = %q{FIX (describe your package)}
   s.email = ["moowahaha@hotmail.com"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt"]
-  s.files = [".rspec", ".rvmrc", "Gemfile", "Gemfile.lock", "History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "despamilator_rails.gemspec", "lib/despamilator_rails.rb", "spec/active_record_integration_spec.rb", "spec/despamilator_rails_spec.rb", "spec/fixtures/active_record_test_class.rb", "spec/fixtures/missing_threshold_test_class.rb", "spec/fixtures/multiple_field_test_class.rb", "spec/fixtures/single_field_test_class.rb", "spec/fixtures/test.sqlite3", "spec/spec_helper.rb"]
+  s.files = [".rspec", ".rvmrc", "Gemfile", "Gemfile.lock", "History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "bob.rb", "despamilator-rails.gemspec", "lib/despamilator_rails.rb", "spec/active_record_integration_spec.rb", "spec/despamilator_rails_spec.rb", "spec/fixtures/active_record_test_class.rb", "spec/fixtures/test.sqlite3", "spec/spec_helper.rb"]
   s.homepage = %q{https://github.com/moowahaha/despamilator-rails}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]
@@ -24,13 +24,16 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<despamilator>, [">= 1.0"])
+      s.add_runtime_dependency(%q<activesupport>, [">= 2.3.2"])
       s.add_development_dependency(%q<hoe>, [">= 2.8.0"])
     else
       s.add_dependency(%q<despamilator>, [">= 1.0"])
+      s.add_dependency(%q<activesupport>, [">= 2.3.2"])
       s.add_dependency(%q<hoe>, [">= 2.8.0"])
     end
   else
     s.add_dependency(%q<despamilator>, [">= 1.0"])
+    s.add_dependency(%q<activesupport>, [">= 2.3.2"])
     s.add_dependency(%q<hoe>, [">= 2.8.0"])
   end
 end

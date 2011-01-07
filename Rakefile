@@ -9,7 +9,7 @@ Hoe.plugin :newgem
 $hoe = Hoe.spec 'despamilator_rails' do
   self.developer 'Stephen Hardisty', 'moowahaha@hotmail.com'
   self.rubyforge_name       = self.name
-  self.extra_deps         = [['despamilator','>= 1.0']]
+  self.extra_deps         = [['despamilator','>= 1.0'], ['activesupport', '>= 2.3.2']]
 end
 
 require 'newgem/tasks'

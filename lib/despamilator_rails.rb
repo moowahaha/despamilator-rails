@@ -33,8 +33,8 @@ module ActiveRecord
       @@despamilator[:threshold] = settings[:threshold] || raise('A threshold score must be supplied')
       @@despamilator[:block] = block || raise('Missing block')
 
+      alias :old_spamilated_validation :validate
       alias_method_chain :validate, :despamilator_checks
-      alias :old_spamilated_validation :validate      
     end
 
   end

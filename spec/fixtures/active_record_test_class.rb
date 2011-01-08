@@ -1,7 +1,5 @@
 class SomeModel < ActiveRecord::Base
-  
-  validates_despamilation_of [:some_field], :threshold => 0.01 do
-    raise "HOLY CRAP!"
-  end
+
+  validate_with_despamilator :attributes => [:some_field]
 
 end

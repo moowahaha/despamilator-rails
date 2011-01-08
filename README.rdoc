@@ -17,15 +17,25 @@ In your environment.rb:
 
     require 'despamilator_rails'
 
-In your model:
+In your model (basic example):
 
     class YourModel < ActiveRecord::Base
 
-      validates_despamilation_of [:some_field], :threshold => 1 do |despamilator_object|
-        raise "Was spam!"
+      validates_with_despamilator :attributes => [:some_field] #=> causes an exception if "some_field" is spammy.
+
+    end
+
+Or, with some configuration...
+
+    class YourModel < ActiveRecord::Base
+
+      validates_with_despamilator :attributes => [:some_field], :threshold => 1 do |field, value, despamilator_instance|
+        # do something useful
       end
 
     end
+
+By default, an exception is thrown and the threshold is "1".
 
 See the various examples in "spec/fixtures".
 

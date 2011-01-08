@@ -6,7 +6,6 @@ History.txt
 Manifest.txt
 README.rdoc
 Rakefile
-bob.rb
 despamilator-rails.gemspec
 lib/despamilator_rails.rb
 spec/active_record_integration_spec.rb

@@ -1,53 +1,80 @@
 describe "despamilator_rails" do
 
-  describe "parameter checking" do
+  describe "threshold" do
 
-    it "should throw an exception when no threshold is supplied" do
+    it "should default to 1" do
+
+      class SomeModelWithDefaultThreshold < ActiveRecord::Base
+        set_table_name 'some_models'
+        validate_with_despamilator attributes: [:some_field]
+      end
+
+      some_model            = SomeModelWithDefaultThreshold.new
+      some_model.some_field = Despamilator.gtubs_test_string
+      -> { some_model.save }.should raise_error(/exceeded the spam threshold of 1/)
+
+    end
+
+    it "should be settable" do
+      
+      class SomeModelWithDefinedThreshold < ActiveRecord::Base
+        set_table_name 'some_models'
+        validate_with_despamilator attributes: [:some_field], threshold: 9
+      end
+
+      some_model            = SomeModelWithDefinedThreshold.new
+      some_model.some_field = Despamilator.gtubs_test_string
+      -> { some_model.save }.should raise_error(/exceeded the spam threshold of 9/)
+
+    end
+
+  end
+
+  describe "attributes" do
+
+    it "should cause an exception when an empty array is passed" do
+
+      ->{
+      class SomeModelWithMissingAttributes < ActiveRecord::Base
+        validate_with_despamilator attributes: []
+      end
+      }.should raise_error('At least one attribute must be defined')
+
+    end
+
+    it "should cause an exception when an empty string is passed" do
 
       -> {
-      class SomeModel < ActiveRecord::Base
-        validates_despamilation_of [:some_field], :threshold => nil do
-        end
+      class SomeModelWithEmptyAttributes < ActiveRecord::Base
+        validate_with_despamilator attributes: ['']
       end
-      }.should raise_error('A threshold score must be supplied')
+      }.should raise_error('At least one attribute must be defined')
 
     end
 
-    describe "missing fields" do
+  end
 
-      it "should throw an exception when an empty array is passed" do
+  it "should allow a block to be specified" do
 
-        -> {
-        class SomeModel < ActiveRecord::Base
-          validates_despamilation_of [], :threshold => 1 do
-          end
-        end
-        }.should raise_error('At least one attribute must be defined')
+    class SomeModelWithABlock < ActiveRecord::Base
+      set_table_name 'some_models'
 
+      def self.do_something field, value, despamilator
       end
 
-      it "should throw an exception when an empty string is passed" do
-
-        -> {
-        class SomeModel < ActiveRecord::Base
-          validates_despamilation_of [''], :threshold => 1 do
-          end
-        end
-        }.should raise_error('At least one attribute must be defined')
-
+      validate_with_despamilator :attributes => [:some_field] do |field, value, despamilator|
+        do_something(field, value, despamilator)
       end
-
     end
 
-    it "should throw an exception when no block is supplied" do
+    fake_despamilator = mock('despamilator')
+    Despamilator.should_receive(:new).and_return(fake_despamilator)
+    fake_despamilator.should_receive(:score).and_return(10000)
+    SomeModelWithABlock.should_receive(:do_something).with(:some_field, 'blah', fake_despamilator)
 
-      -> {
-      class SomeModel < ActiveRecord::Base
-        validates_despamilation_of [:some_field], :threshold => 1
-      end
-      }.should raise_error('Missing block')
-
-    end
+    some_model = SomeModelWithABlock.new
+    some_model.some_field = 'blah'
+    some_model.save
 
   end
 

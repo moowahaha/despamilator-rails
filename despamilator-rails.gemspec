@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Stephen Hardisty"]
-  s.date = %q{2011-01-07}
+  s.date = %q{2011-01-08}
   s.description = %q{FIX (describe your package)}
   s.email = ["moowahaha@hotmail.com"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt"]
-  s.files = [".rspec", ".rvmrc", "Gemfile", "Gemfile.lock", "History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "bob.rb", "despamilator-rails.gemspec", "lib/despamilator_rails.rb", "spec/active_record_integration_spec.rb", "spec/despamilator_rails_spec.rb", "spec/fixtures/active_record_test_class.rb", "spec/fixtures/test.sqlite3", "spec/spec_helper.rb"]
+  s.files = [".rspec", ".rvmrc", "Gemfile", "Gemfile.lock", "History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "despamilator-rails.gemspec", "lib/despamilator_rails.rb", "spec/active_record_integration_spec.rb", "spec/despamilator_rails_spec.rb", "spec/fixtures/active_record_test_class.rb", "spec/fixtures/test.sqlite3", "spec/spec_helper.rb"]
   s.homepage = %q{https://github.com/moowahaha/despamilator-rails}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]

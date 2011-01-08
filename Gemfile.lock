@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/moowahaha/despamilator.git
-  revision: a2e1d6b0a998de335346447989e43cb8835f91ba
+  revision: 4d1cc96e276053500292951102a90be6d0c1109e
   specs:
     despamilator (1.0)
 

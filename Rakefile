@@ -20,7 +20,5 @@ task :test => [:spec]
 
 task :cultivate do
   sh "touch Manifest.txt; rake check_manifest |grep -v \"(in \" | patch"
-  sh "cat Manifest.txt  | grep -v 'bundle/config' | grep -v '_corpus' > Manifest.txt2"
-  sh "mv Manifest.txt2 Manifest.txt"
   sh "rake debug_gem | grep -v \"(in \" > `basename \\`pwd\\``.gemspec"
 end

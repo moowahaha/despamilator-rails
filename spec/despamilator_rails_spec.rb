@@ -59,7 +59,7 @@ describe "despamilator_rails" do
     class SomeModelWithABlock < ActiveRecord::Base
       set_table_name 'some_models'
 
-      def self.do_something field, value, despamilator
+      def do_something field, value, despamilator
       end
 
       validate_with_despamilator :attributes => [:some_field] do |field, value, despamilator|
@@ -70,11 +70,13 @@ describe "despamilator_rails" do
     fake_despamilator = mock('despamilator')
     Despamilator.should_receive(:new).and_return(fake_despamilator)
     fake_despamilator.should_receive(:score).and_return(10000)
-    SomeModelWithABlock.should_receive(:do_something).with(:some_field, 'blah', fake_despamilator)
 
     some_model = SomeModelWithABlock.new
+    some_model.should_receive(:do_something).with(:some_field, 'blah', fake_despamilator)
     some_model.some_field = 'blah'
     some_model.save
+
+    SomeModelWithABlock.delete_all
 
   end
 

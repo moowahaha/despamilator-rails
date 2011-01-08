@@ -14,7 +14,10 @@ module ActiveRecord
     #   some code example...
 
     def self.validate_with_despamilator settings, &block
-      assign_despamilator_class_variables(block, settings)
+      assign_attributes settings
+      assign_threshold settings
+      assign_method block
+
       alias_despamilator_methods
     end
 
@@ -25,33 +28,38 @@ module ActiveRecord
       alias_method_chain :validate, :despamilator_checks
     end
 
-    def self.assign_despamilator_class_variables(block, settings)
-      @@despamilator = {}
-
+    def self.assign_attributes(settings)
       clean_attributes = settings[:attributes].reject do |attribute|
         attribute.blank?
       end
 
-      clean_attributes.empty? ? raise('At least one attribute must be defined') : @@despamilator[:attribute_names] = clean_attributes
+      clean_attributes.empty? ? raise('At least one attribute must be defined') : define_method('despamilator.attributes', lambda { clean_attributes })
+    end
 
-      @@despamilator[:threshold] = settings[:threshold] || 1
-      @@despamilator[:block]     = block || default_despamilator_detection_response
+    def self.assign_threshold(settings)
+      define_method('despamilator.threshold', lambda { settings[:threshold] || 1 })
+    end
+
+    def self.assign_method(block)
+      define_method('despamilator.callback', block || default_despamilator_detection_response)
     end
 
     def validate_with_despamilator_checks
       old_spamilated_validation
 
-      @@despamilator[:attribute_names].each do |attribute|
+      threshold = send('despamilator.threshold')
+
+      send('despamilator.attributes').each do |attribute|
         text  = self.send(attribute)
         dspam = Despamilator.new(text)
 
-        @@despamilator[:block].call(attribute, text, dspam) if dspam.score >= @@despamilator[:threshold]
+        send('despamilator.callback', attribute, text, dspam) if dspam.score >= threshold
       end
     end
 
     def self.default_despamilator_detection_response
       lambda { |attribute, value, dspam|
-        raise "#{attribute} exceeded the spam threshold of #{@@despamilator[:threshold]} (scored: #{dspam.score}, value: #{value})"
+        raise "#{attribute} exceeded the spam threshold of #{send('despamilator.threshold')} (scored: #{dspam.score}, value: #{value})"
       }
     end
 

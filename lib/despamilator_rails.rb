@@ -16,7 +16,7 @@ module ActiveRecord
     def self.validate_with_despamilator settings, &block
       assign_despamilator_attributes settings
       assign_despamilator_threshold settings
-      assign_despamilator_method block
+      assign_despamilator_callback block
 
       alias_despamilator_methods
     end
@@ -42,7 +42,7 @@ module ActiveRecord
         define_method('despamilator.threshold', lambda { settings[:threshold] || 1 })
       end
 
-      def assign_despamilator_method(block)
+      def assign_despamilator_callback(block)
         define_method('despamilator.callback', block || default_despamilator_detection_response)
       end
 

@@ -23,25 +23,29 @@ module ActiveRecord
 
     private
 
-    def self.alias_despamilator_methods
-      alias_method :old_spamilated_validation, :validate
-      alias_method_chain :validate, :despamilator_checks
-    end
+    class << self
 
-    def self.assign_attributes(settings)
-      clean_attributes = settings[:attributes].reject do |attribute|
-        attribute.blank?
+      def alias_despamilator_methods
+        alias_method :old_spamilated_validation, :validate
+        alias_method_chain :validate, :despamilator_checks
       end
 
-      clean_attributes.empty? ? raise('At least one attribute must be defined') : define_method('despamilator.attributes', lambda { clean_attributes })
-    end
+      def assign_attributes(settings)
+        clean_attributes = settings[:attributes].reject do |attribute|
+          attribute.blank?
+        end
 
-    def self.assign_threshold(settings)
-      define_method('despamilator.threshold', lambda { settings[:threshold] || 1 })
-    end
+        clean_attributes.empty? ? raise('At least one attribute must be defined') : define_method('despamilator.attributes', lambda { clean_attributes })
+      end
 
-    def self.assign_method(block)
-      define_method('despamilator.callback', block || default_despamilator_detection_response)
+      def assign_threshold(settings)
+        define_method('despamilator.threshold', lambda { settings[:threshold] || 1 })
+      end
+
+      def assign_method(block)
+        define_method('despamilator.callback', block || default_despamilator_detection_response)
+      end
+
     end
 
     def validate_with_despamilator_checks

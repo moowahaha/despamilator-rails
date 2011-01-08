@@ -14,9 +14,9 @@ module ActiveRecord
     #   some code example...
 
     def self.validate_with_despamilator settings, &block
-      assign_attributes settings
-      assign_threshold settings
-      assign_method block
+      assign_despamilator_attributes settings
+      assign_despamilator_threshold settings
+      assign_despamilator_method block
 
       alias_despamilator_methods
     end
@@ -30,7 +30,7 @@ module ActiveRecord
         alias_method_chain :validate, :despamilator_checks
       end
 
-      def assign_attributes(settings)
+      def assign_despamilator_attributes(settings)
         clean_attributes = settings[:attributes].reject do |attribute|
           attribute.blank?
         end
@@ -38,11 +38,11 @@ module ActiveRecord
         clean_attributes.empty? ? raise('At least one attribute must be defined') : define_method('despamilator.attributes', lambda { clean_attributes })
       end
 
-      def assign_threshold(settings)
+      def assign_despamilator_threshold(settings)
         define_method('despamilator.threshold', lambda { settings[:threshold] || 1 })
       end
 
-      def assign_method(block)
+      def assign_despamilator_method(block)
         define_method('despamilator.callback', block || default_despamilator_detection_response)
       end
 

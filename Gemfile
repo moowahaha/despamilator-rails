@@ -6,8 +6,8 @@ gem 'newgem', '>= 1.5.3'
 gem 'activesupport', '>= 2.3.10'
 
 # while we're fetching from git, we need to execute everything with 'bundle exec'
-gem 'despamilator', :git => 'git://github.com/moowahaha/despamilator.git'
-#gem 'despamilator', '>= 1.0'
+#gem 'despamilator', :git => 'git://github.com/moowahaha/despamilator.git'
+gem 'despamilator', '>= 1.0'
 
 group :test do
   gem 'rspec', '>= 2.4.0'

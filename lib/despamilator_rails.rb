@@ -1,5 +1,4 @@
 require 'despamilator'
-require 'active_support'
 require 'active_record'
 
 module DespamilatorRails

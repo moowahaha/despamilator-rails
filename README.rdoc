@@ -17,6 +17,8 @@ my Despamilator gem.
 
 * DataMapper not yet supported. That's on the list!
 
+* ActiveRecord 3 not supported! That's properly next on the list.
+
 
 == SYNOPSIS:
 

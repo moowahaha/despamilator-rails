@@ -42,7 +42,6 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord (>= 2.3.10)
-  activesupport (>= 2.3.10)
   despamilator (>= 1.0)
   hoe (>= 2.7.0)
   newgem (>= 1.5.3)

@@ -6,7 +6,7 @@ require './lib/despamilator_rails'
 
 Hoe.plugin :newgem
 
-$hoe = Hoe.spec 'despamilator_rails' do
+$hoe = Hoe.spec 'despamilator_rails2' do
   self.developer 'Stephen Hardisty', 'moowahaha@hotmail.com'
   self.rubyforge_name       = self.name
   self.extra_deps         = [['despamilator','>= 1.0'], ['activerecord', '>= 2.3.2']]

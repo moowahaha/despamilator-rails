@@ -45,6 +45,7 @@ module ActiveRecord
     # The callback will receive the field name, the value and the instance of the Despamilator class.
 
     def self.validate_with_despamilator settings, &block
+      raise "This version only supports ActiveRecord 2. Please download the main version for support of newer versions of ActiveRecord." if VERSION::MAJOR > 2
       assign_despamilator_attributes settings
       assign_despamilator_threshold settings
       assign_despamilator_callback block

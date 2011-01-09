@@ -18,7 +18,7 @@ Dir['tasks/**/*.rake'].each { |t| load t }
 task :default => [:spec]
 task :test => [:spec]
 
-describe "Generate appropriate rdoc"
+desc "Generate appropriate rdoc"
 task :rdoc do
   sh "rdoc README.rdoc lib/despamilator_rails.rb"
 end

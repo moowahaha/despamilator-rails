@@ -1,5 +1,5 @@
 class SomeModel < ActiveRecord::Base
 
-  validate_with_despamilator :attributes => [:some_field]
+  validates_with DespamilatorRails, :attributes => [:some_field]
 
 end

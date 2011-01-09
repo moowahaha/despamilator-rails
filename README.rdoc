@@ -5,20 +5,14 @@
 == DESCRIPTION:
 
 Spam detection plugin for Rails & ActiveRecord. Uses all the standard Rails conventions and
-my Despamilator gem.
+my Despamilator gem. This gem only supports Rails 3. See despamilator_rails2 for Rails 2 support.
 
 == FEATURES/PROBLEMS:
 
 * To fix the iconv error when developing with Ruby 1.9.2 and RVM,
   see: http://blog.footle.org/2010/07/29/installing-ruby-1-9-2-via-rvm-on-os-x/ .
 
-* Stuck with lower version of ActiveRecord in Gemfile until Hoe is fixed to support
-  newer versions.
-
-* DataMapper not yet supported. That's on the list!
-
-* ActiveRecord 3 not supported! That's properly next on the list.
-
+* Does not support Rails 2. See despamilator_rails2 for support.
 
 == SYNOPSIS:
 

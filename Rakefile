@@ -18,7 +18,14 @@ Dir['tasks/**/*.rake'].each { |t| load t }
 task :default => [:spec]
 task :test => [:spec]
 
+describe "Generate appropriate rdoc"
+task :rdoc do
+  sh "rdoc lib/despamilator_rails.rb"
+  exit 0
+end
+
 task :cultivate do
+  sh "rm -f *.sqlite3"
   sh "touch Manifest.txt; rake check_manifest |grep -v \"(in \" | patch"
   sh "rake debug_gem | grep -v \"(in \" > `basename \\`pwd\\``.gemspec"
 end

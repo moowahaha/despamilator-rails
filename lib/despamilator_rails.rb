@@ -18,16 +18,26 @@ module ActiveRecord
       assign_despamilator_threshold settings
       assign_despamilator_callback block
 
-      alias_despamilator_methods
+      add_despamilator_validation settings
     end
 
     private
 
     class << self
 
-      def alias_despamilator_methods
-        alias_method :old_spamilated_validation, :validate
-        alias_method_chain :validate, :despamilator_checks
+      def add_despamilator_validation settings
+
+        send(validation_method(:save), settings) do |record|
+
+          record.despamilator_checked_attributes.each do |attribute|
+            text  = record.send(attribute)
+            dspam = Despamilator.new(text)
+
+            record.despamilator_callback(attribute, text, dspam) if dspam.score >= record.despamilator_threshold
+          end
+
+        end
+
       end
 
       def assign_despamilator_attributes(settings)
@@ -35,34 +45,25 @@ module ActiveRecord
           attribute.blank?
         end
 
-        clean_attributes.empty? ? raise('At least one attribute must be defined') : define_method('despamilator_checked_attributes', lambda { clean_attributes })
+        raise('At least one attribute must be defined') if clean_attributes.empty?
+
+        define_method(:despamilator_checked_attributes, lambda { clean_attributes })
       end
 
       def assign_despamilator_threshold(settings)
-        define_method('despamilator_threshold', lambda { settings[:threshold] || 1 })
+        define_method(:despamilator_threshold, lambda { settings[:threshold] || 1 })
       end
 
       def assign_despamilator_callback(block)
-        define_method('despamilator_callback', block || default_despamilator_detection_response)
+        define_method(:despamilator_callback, block || default_despamilator_detection_response)
       end
 
       def default_despamilator_detection_response
         lambda { |attribute, value, dspam|
-          raise "#{attribute} exceeded the spam threshold of #{despamilator_threshold} (scored: #{dspam.score}, value: #{value})"
+          errors.add(attribute, "looks like spam")
         }
       end
-      
-    end
 
-    def validate_with_despamilator_checks
-      old_spamilated_validation
-
-      despamilator_checked_attributes.each do |attribute|
-        text  = self.send(attribute)
-        dspam = Despamilator.new(text)
-
-        despamilator_callback(attribute, text, dspam) if dspam.score >= despamilator_threshold
-      end
     end
 
   end

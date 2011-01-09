@@ -1,30 +1,41 @@
 describe "despamilator_rails" do
 
+  it "should notify of spam detection in a railsy way" do
+
+    class SomeModelWithSpam < ActiveRecord::Base
+      set_table_name 'some_models'
+      validate_with_despamilator :attributes => [:some_field]
+    end
+
+    some_model            = SomeModelWithSpam.new
+    some_model.some_field = Despamilator.gtubs_test_string
+
+    -> {some_model.save!}.should raise_error(ActiveRecord::RecordInvalid)
+    some_model.errors.full_messages.should == ["Some field looks like spam"]
+  end
+
   describe "threshold" do
 
     it "should default to 1" do
 
       class SomeModelWithDefaultThreshold < ActiveRecord::Base
         set_table_name 'some_models'
-        validate_with_despamilator attributes: [:some_field]
+        validate_with_despamilator :attributes => [:some_field]
       end
 
       some_model            = SomeModelWithDefaultThreshold.new
-      some_model.some_field = Despamilator.gtubs_test_string
-      -> { some_model.save }.should raise_error(/exceeded the spam threshold of 1/)
-
+      some_model.despamilator_threshold.should == 1
     end
 
     it "should be settable" do
-      
+
       class SomeModelWithDefinedThreshold < ActiveRecord::Base
         set_table_name 'some_models'
-        validate_with_despamilator attributes: [:some_field], threshold: 9
+        validate_with_despamilator :attributes => [:some_field], :threshold => 9
       end
 
       some_model            = SomeModelWithDefinedThreshold.new
-      some_model.some_field = Despamilator.gtubs_test_string
-      -> { some_model.save }.should raise_error(/exceeded the spam threshold of 9/)
+      some_model.despamilator_threshold.should == 9
 
     end
 
@@ -36,7 +47,7 @@ describe "despamilator_rails" do
 
       ->{
       class SomeModelWithMissingAttributes < ActiveRecord::Base
-        validate_with_despamilator attributes: []
+        validate_with_despamilator :attributes => []
       end
       }.should raise_error('At least one attribute must be defined')
 
@@ -46,7 +57,7 @@ describe "despamilator_rails" do
 
       -> {
       class SomeModelWithEmptyAttributes < ActiveRecord::Base
-        validate_with_despamilator attributes: ['']
+        validate_with_despamilator :attributes => ['']
       end
       }.should raise_error('At least one attribute must be defined')
 
@@ -76,7 +87,33 @@ describe "despamilator_rails" do
     some_model.some_field = 'blah'
     some_model.save
 
-    SomeModelWithABlock.delete_all
+  end
+
+  it "should work nicely with other validate methods" do
+    class SomeModelWithAnotherValidate < ActiveRecord::Base
+      set_table_name 'some_models'
+
+      validate_with_despamilator :attributes => [:some_field] do |field, value, despamilator|
+        do_something
+      end
+
+      def do_something
+      end
+
+      def do_something_else
+      end
+
+      def validate
+        do_something_else
+      end
+
+    end
+
+    some_model            = SomeModelWithAnotherValidate.new
+    some_model.should_receive(:do_something)
+    some_model.should_receive(:do_something_else)
+    some_model.some_field = Despamilator.gtubs_test_string
+    some_model.save
 
   end
 

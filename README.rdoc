@@ -1,15 +1,22 @@
-= despamilator-rails
+= despamilator_rails
 
 * https://github.com/moowahaha/despamilator-rails
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Spam detection plugin for Rails & ActiveRecord. Uses all the standard Rails conventions and
+my Despamilator gem.
 
 == FEATURES/PROBLEMS:
 
 * To fix the iconv error when developing with Ruby 1.9.2 and RVM,
   see: http://blog.footle.org/2010/07/29/installing-ruby-1-9-2-via-rvm-on-os-x/ .
+
+* Stuck with lower version of ActiveRecord in Gemfile until Hoe is fixed to support
+  newer versions.
+
+* DataMapper not yet supported. That's on the list!
+
 
 == SYNOPSIS:
 
@@ -20,7 +27,7 @@ Somewhere (such as your environment.rb...)
 In your model (basic example):
 
    class YourModel < ActiveRecord::Base
-     validates_with_despamilator :attributes => [:some_field]
+     validate_with_despamilator :attributes => [:some_field]
    end
 
 When "some_field" is assigned a spammy value, it will add to the errors. For example...
@@ -36,7 +43,7 @@ Or...
 If you want to configure the threshold (which defaults to 1) or add your own callback, you can do the following:
 
    class YourModel < ActiveRecord::Base
-     validates_with_despamilator :attributes => [:some_field], :threshold => 1 do |field, value, despamilator|
+     validate_with_despamilator :attributes => [:some_field], :threshold => 1 do |field, value, despamilator|
        raise "spam! field: #{field}, value: #{value}, score: #{despamailtor.score}"
      end
    end
@@ -52,7 +59,8 @@ See the various examples in "spec/fixtures".
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* ActiveRecord >= 2.3.2
+* Despamilator >= 1.0
 
 == INSTALL:
 
@@ -62,7 +70,7 @@ See the various examples in "spec/fixtures".
 
 (The MIT License)
 
-Copyright (c) 2010 FIXME full name
+Copyright (c) 2011 Stephen Hardisty
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -17,7 +17,7 @@ module ActiveRecord
     # In your model (basic example):
     #
     #    class YourModel < ActiveRecord::Base
-    #      validates_with_despamilator :attributes => [:some_field]
+    #      validate_with_despamilator :attributes => [:some_field]
     #    end
     #
     # When "some_field" is assigned a spammy value, it will add to the errors. For example...
@@ -33,7 +33,7 @@ module ActiveRecord
     # If you want to configure the threshold (which defaults to 1) or add your own callback, you can do the following:
     #
     #    class YourModel < ActiveRecord::Base
-    #      validates_with_despamilator :attributes => [:some_field], :threshold => 1 do |field, value, despamilator|
+    #      validate_with_despamilator :attributes => [:some_field], :threshold => 1 do |field, value, despamilator|
     #        raise "spam! field: #{field}, value: #{value}, score: #{despamailtor.score}"
     #      end
     #    end

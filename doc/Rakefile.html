@@ -49,6 +49,16 @@
 				
 					<li class="file"><a href="./Rakefile.html">Rakefile</a></li>
 				
+					<li class="file"><a href="./pkg/despamilator_rails-1_0/Gemfile.html">Gemfile</a></li>
+				
+					<li class="file"><a href="./pkg/despamilator_rails-1_0/History_txt.html">History.txt</a></li>
+				
+					<li class="file"><a href="./pkg/despamilator_rails-1_0/Manifest_txt.html">Manifest.txt</a></li>
+				
+					<li class="file"><a href="./pkg/despamilator_rails-1_0/README_rdoc.html">README.rdoc</a></li>
+				
+					<li class="file"><a href="./pkg/despamilator_rails-1_0/Rakefile.html">Rakefile</a></li>
+				
 				</ul>
 			</div>
 			
@@ -126,6 +136,15 @@ href="http://'tasks/*/.rake'">Dir</a>.each { |t| load t }
 </p>
 <p>
 task :default => [:spec] task :test => [:spec]
+</p>
+<p>
+describe &#8220;Generate appropriate rdoc&#8221; task :rdoc do
+</p>
+<pre>
+  sh &quot;rdoc lib/despamilator_rails.rb&quot;
+</pre>
+<p>
+end
 </p>
 <p>
 task :cultivate do

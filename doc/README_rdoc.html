@@ -39,15 +39,7 @@
 				<h3 class="section-header">Files</h3>
 				<ul>
 				
-					<li class="file"><a href="./Gemfile.html">Gemfile</a></li>
-				
-					<li class="file"><a href="./History_txt.html">History.txt</a></li>
-				
-					<li class="file"><a href="./Manifest_txt.html">Manifest.txt</a></li>
-				
 					<li class="file"><a href="./README_rdoc.html">README.rdoc</a></li>
-				
-					<li class="file"><a href="./Rakefile.html">Rakefile</a></li>
 				
 				</ul>
 			</div>
@@ -72,25 +64,7 @@
 				
 					<li><a href="./ActiveRecord/Base.html">ActiveRecord::Base</a></li>
 				
-					<li><a href="./CreateSomeModel.html">CreateSomeModel</a></li>
-				
 					<li><a href="./DespamilatorRails.html">DespamilatorRails</a></li>
-				
-					<li><a href="./SomeModel.html">SomeModel</a></li>
-				
-					<li><a href="./SomeModelWithABlock.html">SomeModelWithABlock</a></li>
-				
-					<li><a href="./SomeModelWithAnotherValidate.html">SomeModelWithAnotherValidate</a></li>
-				
-					<li><a href="./SomeModelWithDefaultThreshold.html">SomeModelWithDefaultThreshold</a></li>
-				
-					<li><a href="./SomeModelWithDefinedThreshold.html">SomeModelWithDefinedThreshold</a></li>
-				
-					<li><a href="./SomeModelWithEmptyAttributes.html">SomeModelWithEmptyAttributes</a></li>
-				
-					<li><a href="./SomeModelWithMissingAttributes.html">SomeModelWithMissingAttributes</a></li>
-				
-					<li><a href="./SomeModelWithSpam.html">SomeModelWithSpam</a></li>
 				
 				</ul>
 				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
@@ -101,7 +75,7 @@
 	</div>
 
 	<div id="documentation">
-		<h1>despamilator-rails</h1>
+		<h1>despamilator_rails</h1>
 <ul>
 <li><p>
 <a
@@ -111,7 +85,9 @@ href="https://github.com/moowahaha/despamilator-rails">github.com/moowahaha/desp
 </ul>
 <h2>DESCRIPTION:</h2>
 <p>
-FIX (describe your package)
+Spam detection plugin for Rails &amp; <a
+href="ActiveRecord.html">ActiveRecord</a>. Uses all the standard Rails
+conventions and my Despamilator gem.
 </p>
 <h2>FEATURES/PROBLEMS:</h2>
 <ul>
@@ -121,38 +97,67 @@ href="http://blog.footle.org/2010/07/29/installing-ruby-1-9-2-via-rvm-on-os-x/">
 .
 </p>
 </li>
+<li><p>
+Stuck with lower version of <a href="ActiveRecord.html">ActiveRecord</a> in
+Gemfile until Hoe is fixed to support newer versions.
+</p>
+</li>
+<li><p>
+DataMapper not yet supported. That&#8217;s on the list!
+</p>
+</li>
 </ul>
 <h2>SYNOPSIS:</h2>
 <p>
-In your environment.rb:
+Somewhere (such as your environment.rb...)
 </p>
 <pre>
-    require 'despamilator_rails'
+   require 'despamilator_rails'
 </pre>
 <p>
 In your model (basic example):
 </p>
 <pre>
-    class YourModel &lt; ActiveRecord::Base
-
-      validates_with_despamilator :attributes =&gt; [:some_field] #=&gt; causes an exception if &quot;some_field&quot; is spammy.
-
-    end
+   class YourModel &lt; ActiveRecord::Base
+     validate_with_despamilator :attributes =&gt; [:some_field]
+   end
 </pre>
 <p>
-Or, with some configuration...
+When &#8220;some_field&#8220; is assigned a spammy value, it will add to
+the errors. For example...
 </p>
 <pre>
-    class YourModel &lt; ActiveRecord::Base
-
-      validates_with_despamilator :attributes =&gt; [:some_field], :threshold =&gt; 1 do |field, value, despamilator_instance|
-        # do something useful
-      end
-
-    end
+   YourModel.new(:some_field =&gt; spammy_value).save! #=&gt; ActiveRecord::RecordInvalid exception!
 </pre>
 <p>
-By default, an exception is thrown and the threshold is &#8220;1&#8221;.
+Or&#8230;
+</p>
+<pre>
+   your_instance = YourModel.new(:some_field =&gt; spammy_value)
+   your_instance.save
+   your_instance.errors.full_messages.should #=&gt; [&quot;Some field looks like spam&quot;]
+</pre>
+<p>
+If you want to configure the threshold (which defaults to 1) or add your
+own callback, you can do the following:
+</p>
+<pre>
+   class YourModel &lt; ActiveRecord::Base
+     validate_with_despamilator :attributes =&gt; [:some_field], :threshold =&gt; 1 do |field, value, despamilator|
+       raise &quot;spam! field: #{field}, value: #{value}, score: #{despamailtor.score}&quot;
+     end
+   end
+</pre>
+<p>
+This example will...
+</p>
+<pre>
+   your_instance = YourModel.new(:some_field =&gt; &quot;spammy string&quot;)
+   your_instance.save! #=&gt; Exception &quot;spam! field: some_field, value: spammy string, score: 123&quot;
+</pre>
+<p>
+The callback will receive the field name, the value and the instance of the
+Despamilator class.
 </p>
 <p>
 See the various examples in &#8220;spec/fixtures&#8220;.
@@ -160,7 +165,11 @@ See the various examples in &#8220;spec/fixtures&#8220;.
 <h2>REQUIREMENTS:</h2>
 <ul>
 <li><p>
-FIX (list of requirements)
+<a href="ActiveRecord.html">ActiveRecord</a> >= 2.3.2
+</p>
+</li>
+<li><p>
+Despamilator >= 1.0
 </p>
 </li>
 </ul>
@@ -176,7 +185,7 @@ gem install despamilator_rails
 (The MIT License)
 </p>
 <p>
-Copyright &#169; 2010 FIXME full name
+Copyright &#169; 2011 Stephen Hardisty
 </p>
 <p>
 Permission is hereby granted, free of charge, to any person obtaining a

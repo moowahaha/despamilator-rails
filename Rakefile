@@ -20,8 +20,7 @@ task :test => [:spec]
 
 describe "Generate appropriate rdoc"
 task :rdoc do
-  sh "rdoc lib/despamilator_rails.rb"
-  exit 0
+  sh "rdoc README.rdoc lib/despamilator_rails.rb"
 end
 
 task :cultivate do

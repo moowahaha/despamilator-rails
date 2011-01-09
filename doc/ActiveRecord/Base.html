@@ -92,6 +92,15 @@
 		<div id="project-metadata">
 			
 			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../README_rdoc.html">README.rdoc</a></li>
+				
+				</ul>
+			</div>
+			
 
 			<div id="classindex-section" class="section project-section">
 				<h3 class="section-header">Class Index
@@ -155,11 +164,17 @@
 				<div class="method-description">
 					
 					<p>
+Somewhere (such as your environment.rb...)
+</p>
+<pre>
+   require 'despamilator_rails'
+</pre>
+<p>
 In your model (basic example):
 </p>
 <pre>
    class YourModel &lt; ActiveRecord::Base
-     validates_with_despamilator :attributes =&gt; [:some_field]
+     validate_with_despamilator :attributes =&gt; [:some_field]
    end
 </pre>
 <p>
@@ -183,8 +198,8 @@ own callback, you can do the following:
 </p>
 <pre>
    class YourModel &lt; ActiveRecord::Base
-     validates_with_despamilator :attributes =&gt; [:some_field], :threshold =&gt; 1 do |field, value, despamilator_instance|
-       raise &quot;spam! field: #{field}, value: #{value}, score: #{despamailtor_instance.score}&quot;
+     validate_with_despamilator :attributes =&gt; [:some_field], :threshold =&gt; 1 do |field, value, despamilator|
+       raise &quot;spam! field: #{field}, value: #{value}, score: #{despamailtor.score}&quot;
      end
    end
 </pre>
@@ -205,14 +220,14 @@ Despamilator class.
 					<div class="method-source-code"
 						id="validate-with-despamilator-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 44</span>
-44:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">validate_with_despamilator</span> <span class="ruby-identifier">settings</span>, &amp;<span class="ruby-identifier">block</span>
-45:       <span class="ruby-identifier">assign_despamilator_attributes</span> <span class="ruby-identifier">settings</span>
-46:       <span class="ruby-identifier">assign_despamilator_threshold</span> <span class="ruby-identifier">settings</span>
-47:       <span class="ruby-identifier">assign_despamilator_callback</span> <span class="ruby-identifier">block</span>
-48: 
-49:       <span class="ruby-identifier">add_despamilator_validation</span> <span class="ruby-identifier">settings</span>
-50:     <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 48</span>
+48:     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">validate_with_despamilator</span> <span class="ruby-identifier">settings</span>, &amp;<span class="ruby-identifier">block</span>
+49:       <span class="ruby-identifier">assign_despamilator_attributes</span> <span class="ruby-identifier">settings</span>
+50:       <span class="ruby-identifier">assign_despamilator_threshold</span> <span class="ruby-identifier">settings</span>
+51:       <span class="ruby-identifier">assign_despamilator_callback</span> <span class="ruby-identifier">block</span>
+52: 
+53:       <span class="ruby-identifier">add_despamilator_validation</span> <span class="ruby-identifier">settings</span>
+54:     <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -249,21 +264,21 @@ Despamilator class.
 					<div class="method-source-code"
 						id="add-despamilator-validation-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 56</span>
-56:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_despamilator_validation</span> <span class="ruby-identifier">settings</span>
-57: 
-58:         <span class="ruby-identifier">send</span>(<span class="ruby-identifier">validation_method</span>(<span class="ruby-value">:save</span>), <span class="ruby-identifier">settings</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
-59: 
-60:           <span class="ruby-identifier">record</span>.<span class="ruby-identifier">despamilator_checked_attributes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
-61:             <span class="ruby-identifier">text</span>  = <span class="ruby-identifier">record</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>)
-62:             <span class="ruby-identifier">dspam</span> = <span class="ruby-constant">Despamilator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">text</span>)
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 60</span>
+60:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_despamilator_validation</span> <span class="ruby-identifier">settings</span>
+61: 
+62:         <span class="ruby-identifier">send</span>(<span class="ruby-identifier">validation_method</span>(<span class="ruby-value">:save</span>), <span class="ruby-identifier">settings</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">record</span><span class="ruby-operator">|</span>
 63: 
-64:             <span class="ruby-identifier">record</span>.<span class="ruby-identifier">despamilator_callback</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">text</span>, <span class="ruby-identifier">dspam</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dspam</span>.<span class="ruby-identifier">score</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">despamilator_threshold</span>
-65:           <span class="ruby-keyword kw">end</span>
-66: 
-67:         <span class="ruby-keyword kw">end</span>
-68: 
-69:       <span class="ruby-keyword kw">end</span></pre>
+64:           <span class="ruby-identifier">record</span>.<span class="ruby-identifier">despamilator_checked_attributes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
+65:             <span class="ruby-identifier">text</span>  = <span class="ruby-identifier">record</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">attribute</span>)
+66:             <span class="ruby-identifier">dspam</span> = <span class="ruby-constant">Despamilator</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">text</span>)
+67: 
+68:             <span class="ruby-identifier">record</span>.<span class="ruby-identifier">despamilator_callback</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">text</span>, <span class="ruby-identifier">dspam</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dspam</span>.<span class="ruby-identifier">score</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">record</span>.<span class="ruby-identifier">despamilator_threshold</span>
+69:           <span class="ruby-keyword kw">end</span>
+70: 
+71:         <span class="ruby-keyword kw">end</span>
+72: 
+73:       <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -294,16 +309,16 @@ Despamilator class.
 					<div class="method-source-code"
 						id="assign-despamilator-attributes-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 71</span>
-71:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_despamilator_attributes</span>(<span class="ruby-identifier">settings</span>)
-72:         <span class="ruby-identifier">clean_attributes</span> = <span class="ruby-identifier">settings</span>[<span class="ruby-value">:attributes</span>].<span class="ruby-identifier">reject</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
-73:           <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">blank?</span>
-74:         <span class="ruby-keyword kw">end</span>
-75: 
-76:         <span class="ruby-identifier">raise</span>(<span class="ruby-value str">'At least one attribute must be defined'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">clean_attributes</span>.<span class="ruby-identifier">empty?</span>
-77: 
-78:         <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:despamilator_checked_attributes</span>, <span class="ruby-identifier">lambda</span> { <span class="ruby-identifier">clean_attributes</span> })
-79:       <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 75</span>
+75:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_despamilator_attributes</span>(<span class="ruby-identifier">settings</span>)
+76:         <span class="ruby-identifier">clean_attributes</span> = <span class="ruby-identifier">settings</span>[<span class="ruby-value">:attributes</span>].<span class="ruby-identifier">reject</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
+77:           <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">blank?</span>
+78:         <span class="ruby-keyword kw">end</span>
+79: 
+80:         <span class="ruby-identifier">raise</span>(<span class="ruby-value str">'At least one attribute must be defined'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">clean_attributes</span>.<span class="ruby-identifier">empty?</span>
+81: 
+82:         <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:despamilator_checked_attributes</span>, <span class="ruby-identifier">lambda</span> { <span class="ruby-identifier">clean_attributes</span> })
+83:       <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -334,10 +349,10 @@ Despamilator class.
 					<div class="method-source-code"
 						id="assign-despamilator-callback-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 85</span>
-85:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_despamilator_callback</span>(<span class="ruby-identifier">block</span>)
-86:         <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:despamilator_callback</span>, <span class="ruby-identifier">block</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">default_despamilator_detection_response</span>)
-87:       <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 89</span>
+89:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_despamilator_callback</span>(<span class="ruby-identifier">block</span>)
+90:         <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:despamilator_callback</span>, <span class="ruby-identifier">block</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">default_despamilator_detection_response</span>)
+91:       <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -368,10 +383,10 @@ Despamilator class.
 					<div class="method-source-code"
 						id="assign-despamilator-threshold-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 81</span>
-81:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_despamilator_threshold</span>(<span class="ruby-identifier">settings</span>)
-82:         <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:despamilator_threshold</span>, <span class="ruby-identifier">lambda</span> { <span class="ruby-identifier">settings</span>[<span class="ruby-value">:threshold</span>] <span class="ruby-operator">||</span> <span class="ruby-value">1</span> })
-83:       <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 85</span>
+85:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_despamilator_threshold</span>(<span class="ruby-identifier">settings</span>)
+86:         <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:despamilator_threshold</span>, <span class="ruby-identifier">lambda</span> { <span class="ruby-identifier">settings</span>[<span class="ruby-value">:threshold</span>] <span class="ruby-operator">||</span> <span class="ruby-value">1</span> })
+87:       <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>
@@ -402,12 +417,12 @@ Despamilator class.
 					<div class="method-source-code"
 						id="default-despamilator-detection-response-source">
 <pre>
-    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 89</span>
-89:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default_despamilator_detection_response</span>
-90:         <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">dspam</span><span class="ruby-operator">|</span>
-91:           <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-value str">&quot;looks like spam&quot;</span>)
-92:         }
-93:       <span class="ruby-keyword kw">end</span></pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 93</span>
+93:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default_despamilator_detection_response</span>
+94:         <span class="ruby-identifier">lambda</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">dspam</span><span class="ruby-operator">|</span>
+95:           <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">attribute</span>, <span class="ruby-value str">&quot;looks like spam&quot;</span>)
+96:         }
+97:       <span class="ruby-keyword kw">end</span></pre>
 					</div>
 					
 				</div>

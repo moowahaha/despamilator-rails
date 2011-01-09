@@ -2,7 +2,7 @@ require 'despamilator'
 require 'active_record'
 
 module DespamilatorRails
-  VERSION = "1.0"
+  VERSION = "1.0.1"
 end
 
 module ActiveRecord

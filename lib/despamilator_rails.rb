@@ -10,7 +10,7 @@ module ActiveRecord
 
   class Base
 
-    # Somewhere (such as your envirnoment.rb...)
+    # Somewhere (such as your environment.rb...)
     #
     #    require 'despamilator_rails'
     #

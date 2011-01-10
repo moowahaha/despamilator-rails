@@ -1,19 +1,8 @@
 require 'despamilator'
 require 'active_record'
 
-class DespamilatorRails < ActiveModel::Validator
-  VERSION = "1.1"
+module ActiveModel
 
-  "This version only supports ActiveRecord 3. See despamilator_rails2 for support for older versions of Rails" if ActiveRecord::VERSION::MAJOR < 3
-
-  def validate(record)
-    record.errors[:base] << "oh no!"
-  end
-end
-
-module ActiveRecord
-
-  class Base
 
     # Somewhere (such as your environment.rb...)
     #
@@ -104,5 +93,3 @@ module ActiveRecord
     end
 
   end
-
-end

@@ -11,10 +11,15 @@ GEM
       arel (~> 2.0.2)
       tzinfo (~> 0.3.23)
     activesupport (3.0.3)
+    addressable (2.2.2)
     arel (2.0.6)
     builder (2.1.2)
     despamilator (1.0)
     diff-lcs (1.1.2)
+    dm-core (1.0.2)
+      addressable (~> 2.2)
+      extlib (~> 0.9.15)
+    extlib (0.9.15)
     ffi (1.0.4)
       rake (>= 0.8.7)
     i18n (0.5.0)
@@ -40,8 +45,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activemodel (>= 3.0.0)
   activerecord (>= 3.0.0)
+  activesupport (>= 3.0.0)
   despamilator (>= 1.0)
+  dm-core (>= 1.0.2)
   one_hundred_percent_coverage
   rspec (>= 2.4.0)
   sqlite3 (>= 0.1.1)

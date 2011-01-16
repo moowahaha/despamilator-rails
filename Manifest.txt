@@ -12,4 +12,3 @@ spec/active_record_integration_spec.rb
 spec/despamilator_rails_spec.rb
 spec/fixtures/active_record_test_class.rb
 spec/spec_helper.rb
-spec/test_db_migrations/create_test_model_table.rb

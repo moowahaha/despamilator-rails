@@ -47,7 +47,6 @@ PLATFORMS
 DEPENDENCIES
   activemodel (>= 3.0.0)
   activerecord (>= 3.0.0)
-  activesupport (>= 3.0.0)
   despamilator (>= 1.0)
   dm-core (>= 1.0.2)
   one_hundred_percent_coverage

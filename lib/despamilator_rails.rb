@@ -1,8 +1,11 @@
 require 'despamilator'
 require 'active_record'
 
-class DespamilatorRails < ActiveModel::EachValidator
-
+class DespamilatorRailsValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, text)
+    dspam = Despamilator.new(text)
+    record.despamilator_callback(attribute, text, dspam) if dspam.score >= record.despamilator_threshold
+  end
 end
 
 module ActiveModel
@@ -45,7 +48,6 @@ module ActiveModel
       # The callback will receive the field name, the value and the instance of the Despamilator class.
 
       def validate_with_despamilator settings, &block
-        assign_despamilator_attributes settings
         assign_despamilator_threshold settings
         assign_despamilator_callback block
 
@@ -56,27 +58,20 @@ module ActiveModel
 
       def add_despamilator_validation settings
 
-        send(validation_method(:save), settings) do |record|
-
-          record.despamilator_checked_attributes.each do |attribute|
-            text  = record.send(attribute)
-            dspam = Despamilator.new(text)
-
-            record.despamilator_callback(attribute, text, dspam) if dspam.score >= record.despamilator_threshold
-          end
-
+        clean_despamilator_attributes(settings).each do |attribute|
+          validates attribute, :despamilator_rails => true
         end
 
       end
 
-      def assign_despamilator_attributes(settings)
+      def clean_despamilator_attributes(settings)
         clean_attributes = settings[:attributes].reject do |attribute|
           attribute.blank?
         end
 
         raise('At least one attribute must be defined') if clean_attributes.empty?
 
-        define_method(:despamilator_checked_attributes, lambda { clean_attributes })
+        clean_attributes
       end
 
       def assign_despamilator_threshold(settings)

@@ -1,55 +1,58 @@
 require 'despamilator'
 require 'active_record'
 
+class DespamilatorRails < ActiveModel::EachValidator
+
+end
+
 module ActiveModel
+  module Validations
+    module ClassMethods
 
+      # Somewhere (such as your environment.rb...)
+      #
+      #    require 'despamilator_rails'
+      #
+      # In your model (basic example):
+      #
+      #    class YourModel < ActiveRecord::Base
+      #      validate_with_despamilator :attributes => [:some_field]
+      #    end
+      #
+      # When "some_field" is assigned a spammy value, it will add to the errors. For example...
+      #
+      #    YourModel.new(:some_field => spammy_value).save! #=> ActiveRecord::RecordInvalid exception!
+      #
+      # Or...
+      #
+      #    your_instance = YourModel.new(:some_field => spammy_value)
+      #    your_instance.save
+      #    your_instance.errors.full_messages.should #=> ["Some field looks like spam"]
+      #
+      # If you want to configure the threshold (which defaults to 1) or add your own callback, you can do the following:
+      #
+      #    class YourModel < ActiveRecord::Base
+      #      validate_with_despamilator :attributes => [:some_field], :threshold => 1 do |field, value, despamilator|
+      #        raise "spam! field: #{field}, value: #{value}, score: #{despamailtor.score}"
+      #      end
+      #    end
+      #
+      # This example will...
+      #
+      #    your_instance = YourModel.new(:some_field => "spammy string")
+      #    your_instance.save! #=> Exception "spam! field: some_field, value: spammy string, score: 123"
+      #
+      # The callback will receive the field name, the value and the instance of the Despamilator class.
 
-    # Somewhere (such as your environment.rb...)
-    #
-    #    require 'despamilator_rails'
-    #
-    # In your model (basic example):
-    #
-    #    class YourModel < ActiveRecord::Base
-    #      validate_with_despamilator :attributes => [:some_field]
-    #    end
-    #
-    # When "some_field" is assigned a spammy value, it will add to the errors. For example...
-    #
-    #    YourModel.new(:some_field => spammy_value).save! #=> ActiveRecord::RecordInvalid exception!
-    #
-    # Or...
-    #
-    #    your_instance = YourModel.new(:some_field => spammy_value)
-    #    your_instance.save
-    #    your_instance.errors.full_messages.should #=> ["Some field looks like spam"]
-    #
-    # If you want to configure the threshold (which defaults to 1) or add your own callback, you can do the following:
-    #
-    #    class YourModel < ActiveRecord::Base
-    #      validate_with_despamilator :attributes => [:some_field], :threshold => 1 do |field, value, despamilator|
-    #        raise "spam! field: #{field}, value: #{value}, score: #{despamailtor.score}"
-    #      end
-    #    end
-    #
-    # This example will...
-    #
-    #    your_instance = YourModel.new(:some_field => "spammy string")
-    #    your_instance.save! #=> Exception "spam! field: some_field, value: spammy string, score: 123"
-    #
-    # The callback will receive the field name, the value and the instance of the Despamilator class.
+      def validate_with_despamilator settings, &block
+        assign_despamilator_attributes settings
+        assign_despamilator_threshold settings
+        assign_despamilator_callback block
 
-    def self.validate_with_despamilator settings, &block
-      assign_despamilator_attributes settings
-      assign_despamilator_threshold settings
-      assign_despamilator_callback block
+        add_despamilator_validation settings
+      end
 
-      add_despamilator_validation settings
-    end
-
-    private
-
-    class << self
+      private
 
       def add_despamilator_validation settings
 
@@ -93,3 +96,4 @@ module ActiveModel
     end
 
   end
+end

@@ -1,3 +1,5 @@
+require 'active_record'
+
 class SomeActiveRecordModelBase < ActiveRecord::Base
 
   establish_connection :adapter => 'sqlite3', :database => 'test.sqlite3'

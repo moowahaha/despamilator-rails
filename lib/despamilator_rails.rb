@@ -1,4 +1,5 @@
 require 'despamilator'
+require 'active_model'
 
 class DespamilatorRailsValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, text)

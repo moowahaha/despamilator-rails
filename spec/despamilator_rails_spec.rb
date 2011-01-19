@@ -2,7 +2,7 @@ describe "despamilator_rails" do
 
   it "should notify of spam detection in a railsy way" do
 
-    class SomeModelWithSpam < SomeModelBase
+    class SomeModelWithSpam < SomeActiveRecordModelBase
       validate_with_despamilator :attributes => [:some_field]
     end
 
@@ -17,7 +17,7 @@ describe "despamilator_rails" do
 
     it "should default to 1" do
 
-      class SomeModelWithDefaultThreshold < SomeModelBase
+      class SomeModelWithDefaultThreshold < SomeActiveRecordModelBase
         validate_with_despamilator :attributes => [:some_field]
       end
 
@@ -27,7 +27,7 @@ describe "despamilator_rails" do
 
     it "should be settable" do
 
-      class SomeModelWithDefinedThreshold < SomeModelBase
+      class SomeModelWithDefinedThreshold < SomeActiveRecordModelBase
         validate_with_despamilator :attributes => [:some_field], :threshold => 9
       end
 
@@ -43,7 +43,7 @@ describe "despamilator_rails" do
     it "should cause an exception when an empty array is passed" do
 
       ->{
-      class SomeModelWithMissingAttributes < SomeModelBase
+      class SomeModelWithMissingAttributes < SomeActiveRecordModelBase
         validate_with_despamilator :attributes => []
       end
       }.should raise_error('At least one attribute must be defined')
@@ -53,7 +53,7 @@ describe "despamilator_rails" do
     it "should cause an exception when an empty string is passed" do
 
       -> {
-      class SomeModelWithEmptyAttributes < SomeModelBase
+      class SomeModelWithEmptyAttributes < SomeActiveRecordModelBase
         validate_with_despamilator :attributes => ['']
       end
       }.should raise_error('At least one attribute must be defined')
@@ -64,7 +64,7 @@ describe "despamilator_rails" do
 
   it "should allow a block to be specified" do
 
-    class SomeModelWithABlock < SomeModelBase
+    class SomeModelWithABlock < SomeActiveRecordModelBase
       def do_something field, value, despamilator
       end
 

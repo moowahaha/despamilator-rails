@@ -1,6 +1,6 @@
-describe "active_record integration" do
+describe "data mapper integration" do
   it "should check for spam on save" do
-    some_instance            = SomeActiveRecordModel.new
+    some_instance            = SomeDataMapperModel.new
     some_instance.some_field = Despamilator.gtubs_test_string
 
     -> { some_instance.save! }.should raise_error(ActiveRecord::RecordInvalid)

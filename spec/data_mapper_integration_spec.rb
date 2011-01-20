@@ -1,9 +1,5 @@
-describe "data mapper integration" do
-  # todo refactor to shared spec
-  it "should check for spam on save" do
-    some_instance            = SomeDataMapperModel.new
-    some_instance.some_field = Despamilator.gtubs_test_string
+describe SomeDataMapperModel do
 
-    -> { some_instance.save! }.should raise_error(ActiveRecord::RecordInvalid)
-  end
+  it_should_behave_like "a spam protected model"
+
 end

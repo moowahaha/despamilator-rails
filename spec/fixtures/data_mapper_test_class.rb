@@ -1,15 +1,14 @@
-require 'dm-core'
 require 'dm-migrations'
+require 'dm-validations'
 
 class SomeDataMapperModel
 
   DataMapper.setup(:default, 'sqlite::memory:')
 
   include DataMapper::Resource
-  include ActiveModel::Validations
 
   property :id, Serial
-  property :some_field, String
+  property :some_field, Text
 
   validate_with_despamilator :attributes => [:some_field]
 

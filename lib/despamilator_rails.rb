@@ -1,7 +1,11 @@
 require 'despamilator'
 require 'active_model'
 
-class DespamilatorRailsValidator < ActiveModel::EachValidator
+Dir.glob(File.join(File.dirname(__FILE__), 'despamilator_rails', '*.rb')) do |file|
+  require file
+end
+
+class DespamilatorActiveRecordValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, text)
     dspam = Despamilator.new(text)
     record.despamilator_callback(attribute, text, dspam) if dspam.score >= record.despamilator_threshold
@@ -46,6 +50,8 @@ module DespamilatorRails
   # The callback will receive the field name, the value and the instance of the Despamilator class.
 
   def validate_with_despamilator settings, & block
+    extend(respond_to?(:validates_with_block) ? DespamilatorRails::DataMapperValidator : DespamilatorRails::ActiveRecordValidator)
+
     assign_despamilator_threshold settings
     assign_despamilator_callback block
 
@@ -57,7 +63,7 @@ module DespamilatorRails
   def add_despamilator_validation settings
 
     clean_despamilator_attributes(settings).each do |attribute|
-      validates attribute, :despamilator_rails => true
+      setup_despamilation_detection_for attribute
     end
 
   end
@@ -80,12 +86,6 @@ module DespamilatorRails
     define_method(:despamilator_callback, block || default_despamilator_detection_response)
   end
 
-  def default_despamilator_detection_response
-    lambda { |attribute, value, dspam|
-      errors.add(attribute, "looks like spam")
-    }
-  end
-
 end
 
-ActiveModel::Validations::ClassMethods.send(:include, DespamilatorRails)
+Module.send(:include, DespamilatorRails)

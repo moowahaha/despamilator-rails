@@ -1,8 +1,5 @@
-describe "active_record integration" do
-  it "should check for spam on save" do
-    some_instance            = SomeActiveRecordModel.new
-    some_instance.some_field = Despamilator.gtubs_test_string
+describe SomeActiveRecordModel do
 
-    -> { some_instance.save! }.should raise_error(ActiveRecord::RecordInvalid)
-  end
+  it_should_behave_like "a spam protected model"
+
 end

@@ -10,8 +10,6 @@ class SomeDataMapperModel
   property :id, Serial
   property :some_field, Text
 
-  validate_with_despamilator :attributes => [:some_field]
-
 end
 
 DataMapper.auto_migrate!

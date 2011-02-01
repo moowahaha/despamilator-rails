@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.description = %q{FIX (describe your package)}
   s.email = ["moowahaha@hotmail.com"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt"]
-  s.files = [".rspec", ".rvmrc", "Gemfile", "Gemfile.lock", "History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "despamilator-rails.gemspec", "lib/despamilator_rails.rb", "spec/data_mapper_integration_spec.rb", "spec/active_record_integration_spec.rb", "spec/despamilator_rails_spec.rb", "spec/fixtures/active_record_test_class.rb", "spec/fixtures/active_record_test_class_base.rb", "spec/fixtures/data_mapper_test_class.rb", "spec/spec_helper.rb"]
+  s.files = `git ls-files`.split("\n")
   s.homepage = %q{https://github.com/moowahaha/despamilator-rails}
   s.rdoc_options = ["--main", "README.rdoc"]
   s.require_paths = ["lib"]
@@ -23,14 +23,14 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<despamilator>, [">= 1.0"])
+      s.add_runtime_dependency(%q<despamilator>, [">= 1.1"])
       s.add_runtime_dependency(%q<activemodel>, [">= 3.0.0"])
     else
-      s.add_dependency(%q<despamilator>, [">= 1.0"])
+      s.add_dependency(%q<despamilator>, [">= 1.1"])
       s.add_dependency(%q<activemodel>, [">= 3.0.0"])
     end
   else
-    s.add_dependency(%q<despamilator>, [">= 1.0"])
+    s.add_dependency(%q<despamilator>, [">= 1.1"])
     s.add_dependency(%q<activemodel>, [">= 3.0.0"])
   end
 end

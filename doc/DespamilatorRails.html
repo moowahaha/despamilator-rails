@@ -58,6 +58,23 @@
 
 			<!-- Method Quickref -->
 			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#method-i-add_despamilator_validation">#add_despamilator_validation</a></li>
+					
+					<li><a href="#method-i-assign_despamilator_callback">#assign_despamilator_callback</a></li>
+					
+					<li><a href="#method-i-assign_despamilator_threshold">#assign_despamilator_threshold</a></li>
+					
+					<li><a href="#method-i-clean_despamilator_attributes">#clean_despamilator_attributes</a></li>
+					
+					<li><a href="#method-i-validate_with_despamilator">#validate_with_despamilator</a></li>
+					
+				</ul>
+			</div>
+			
 
 			<!-- Included Modules -->
 			
@@ -91,9 +108,7 @@
 
 				<ul class="link-list">
 				
-					<li><a href="./ActiveRecord.html">ActiveRecord</a></li>
-				
-					<li><a href="./ActiveRecord/Base.html">ActiveRecord::Base</a></li>
+					<li><a href="./DespamilatorActiveRecordValidator.html">DespamilatorActiveRecordValidator</a></li>
 				
 					<li><a href="./DespamilatorRails.html">DespamilatorRails</a></li>
 				
@@ -114,24 +129,258 @@
 
 		<!-- Constants -->
 		
-		<div id="constants-list" class="section">
-			<h3 class="section-header">Constants</h3>
-			<dl>
-			
-				<dt><a name="VERSION">VERSION</a></dt>
-				
-				<dd class="description"></dd>
-				
-			
-			</dl>
-		</div>
-		
 
 		<!-- Attributes -->
 		
 
 		<!-- Methods -->
 		
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="validate-with-despamilator-method" class="method-detail ">
+				<a name="method-i-validate_with_despamilator"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">validate_with_despamilator</span><span
+						class="method-args">(settings, & block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+In your model (basic example):
+</p>
+<pre>
+   class YourModel &lt; ActiveRecord::Base
+     validate_with_despamilator :attributes =&gt; [:some_field]
+   end
+</pre>
+<p>
+When &#8220;some_field&#8220; is assigned a spammy value, it will add to
+the errors. For example...
+</p>
+<pre>
+   YourModel.new(:some_field =&gt; spammy_value).save! #=&gt; ActiveRecord::RecordInvalid exception!
+</pre>
+<p>
+Or&#8230;
+</p>
+<pre>
+   your_instance = YourModel.new(:some_field =&gt; spammy_value)
+   your_instance.save
+   your_instance.errors.full_messages.should #=&gt; [&quot;Some field looks like spam&quot;]
+</pre>
+<p>
+Note that, by default, DataMapper behaves slightly differently in that it
+will not raise exceptions unless you code a callback to deal with that.
+Instead it will return &#8220;false&#8221; on an unsuccessful save.
+</p>
+<p>
+If you want to configure the threshold (which defaults to 1) or add your
+own callback, you can do the following:
+</p>
+<pre>
+   class YourModel &lt; ActiveRecord::Base
+     validate_with_despamilator :attributes =&gt; [:some_field], :threshold =&gt; 1 do |field, value, despamilator|
+       raise &quot;spam! field: #{field}, value: #{value}, score: #{despamailtor.score}&quot;
+     end
+   end
+</pre>
+<p>
+This example will...
+</p>
+<pre>
+   your_instance = YourModel.new(:some_field =&gt; &quot;spammy string&quot;)
+   your_instance.save! #=&gt; Exception &quot;spam! field: some_field, value: spammy string, score: 123&quot;
+</pre>
+<p>
+The callback will receive the field name, the value and the instance of the
+Despamilator class.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="validate-with-despamilator-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 51</span>
+51:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">validate_with_despamilator</span> <span class="ruby-identifier">settings</span>, &amp; <span class="ruby-identifier">block</span>
+52:     <span class="ruby-identifier">extend</span>(<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:validates_with_block</span>) <span class="ruby-operator">?</span> <span class="ruby-constant">DespamilatorRails</span><span class="ruby-operator">::</span><span class="ruby-constant">DataMapperValidator</span> <span class="ruby-operator">:</span> <span class="ruby-constant">DespamilatorRails</span><span class="ruby-operator">::</span><span class="ruby-constant">ActiveRecordValidator</span>)
+53: 
+54:     <span class="ruby-identifier">assign_despamilator_threshold</span> <span class="ruby-identifier">settings</span>
+55:     <span class="ruby-identifier">assign_despamilator_callback</span> <span class="ruby-identifier">block</span>
+56: 
+57:     <span class="ruby-identifier">add_despamilator_validation</span> <span class="ruby-identifier">settings</span>
+58:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="private-instance-method-details" class="method-section section">
+			<h3 class="section-header">Private Instance Methods</h3>
+
+		
+			<div id="add-despamilator-validation-method" class="method-detail ">
+				<a name="method-i-add_despamilator_validation"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">add_despamilator_validation</span><span
+						class="method-args">(settings)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="add-despamilator-validation-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 62</span>
+62:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_despamilator_validation</span> <span class="ruby-identifier">settings</span>
+63: 
+64:     <span class="ruby-identifier">clean_despamilator_attributes</span>(<span class="ruby-identifier">settings</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
+65:       <span class="ruby-identifier">setup_despamilation_detection_for</span> <span class="ruby-identifier">attribute</span>
+66:     <span class="ruby-keyword kw">end</span>
+67: 
+68:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="assign-despamilator-callback-method" class="method-detail ">
+				<a name="method-i-assign_despamilator_callback"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">assign_despamilator_callback</span><span
+						class="method-args">(block)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="assign-despamilator-callback-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 84</span>
+84:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_despamilator_callback</span>(<span class="ruby-identifier">block</span>)
+85:     <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:despamilator_callback</span>, <span class="ruby-identifier">block</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">default_despamilator_detection_response</span>)
+86:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="assign-despamilator-threshold-method" class="method-detail ">
+				<a name="method-i-assign_despamilator_threshold"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">assign_despamilator_threshold</span><span
+						class="method-args">(settings)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="assign-despamilator-threshold-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 80</span>
+80:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">assign_despamilator_threshold</span>(<span class="ruby-identifier">settings</span>)
+81:     <span class="ruby-identifier">define_method</span>(<span class="ruby-value">:despamilator_threshold</span>, <span class="ruby-identifier">lambda</span> { <span class="ruby-identifier">settings</span>[<span class="ruby-value">:threshold</span>] <span class="ruby-operator">||</span> <span class="ruby-value">1</span> })
+82:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+			<div id="clean-despamilator-attributes-method" class="method-detail ">
+				<a name="method-i-clean_despamilator_attributes"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">clean_despamilator_attributes</span><span
+						class="method-args">(settings)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					
+					
+
+					
+					<div class="method-source-code"
+						id="clean-despamilator-attributes-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/despamilator_rails.rb, line 70</span>
+70:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clean_despamilator_attributes</span>(<span class="ruby-identifier">settings</span>)
+71:     <span class="ruby-identifier">clean_attributes</span> = <span class="ruby-identifier">settings</span>[<span class="ruby-value">:attributes</span>].<span class="ruby-identifier">reject</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute</span><span class="ruby-operator">|</span>
+72:       <span class="ruby-identifier">attribute</span>.<span class="ruby-identifier">blank?</span>
+73:     <span class="ruby-keyword kw">end</span>
+74: 
+75:     <span class="ruby-identifier">raise</span>(<span class="ruby-value str">'At least one attribute must be defined'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">clean_attributes</span>.<span class="ruby-identifier">empty?</span>
+76: 
+77:     <span class="ruby-identifier">clean_attributes</span>
+78:   <span class="ruby-keyword kw">end</span></pre>
+					</div>
+					
+				</div>
+
+				
+
+				
+			</div>
+
+		
+		</div>
+	
 
 	</div>
 

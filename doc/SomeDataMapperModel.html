@@ -5,7 +5,7 @@
 <head>
 	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 
-	<title>Class: CreateSomeModel</title>
+	<title>Class: SomeDataMapperModel</title>
 
 	<link rel="stylesheet" href="./rdoc.css" type="text/css" media="screen" />
 
@@ -38,14 +38,8 @@
 				<div class="section-body">
 					<ul>
 					
-						<li><a href="./pkg/despamilator_rails-1_0/spec/test_db_migrations/create_test_model_table_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="pkg/despamilator_rails-1.0/spec/test_db_migrations/create_test_model_table.rb">pkg/despamilator_rails-1.0/spec/test_db_migrations/create_test_model_table.rb</a></li>
-					
-						<li><a href="./pkg/despamilator_rails-1_0_1/spec/test_db_migrations/create_test_model_table_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="pkg/despamilator_rails-1.0.1/spec/test_db_migrations/create_test_model_table.rb">pkg/despamilator_rails-1.0.1/spec/test_db_migrations/create_test_model_table.rb</a></li>
-					
-						<li><a href="./pkg/despamilator_rails2-1_0_1/spec/test_db_migrations/create_test_model_table_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
-							class="thickbox" title="pkg/despamilator_rails2-1.0.1/spec/test_db_migrations/create_test_model_table.rb">pkg/despamilator_rails2-1.0.1/spec/test_db_migrations/create_test_model_table.rb</a></li>
+						<li><a href="./spec/fixtures/data_mapper_test_class_rb.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="spec/fixtures/data_mapper_test_class.rb">spec/fixtures/data_mapper_test_class.rb</a></li>
 					
 					</ul>
 				</div>
@@ -61,7 +55,7 @@
 			<div id="parent-class-section" class="section">
 				<h3 class="section-header">Parent</h3>
 				
-				<p class="link">ActiveRecord::Migration</p>
+				<p class="link">Object</p>
 				
 			</div>
 			
@@ -71,21 +65,19 @@
 
 			<!-- Method Quickref -->
 			
-			<div id="method-list-section" class="section">
-				<h3 class="section-header">Methods</h3>
-				<ul class="link-list">
-					
-					<li><a href="#method-c-up">::up</a></li>
-					
-					<li><a href="#method-c-up">::up</a></li>
-					
-					<li><a href="#method-c-up">::up</a></li>
-					
-				</ul>
-			</div>
-			
 
 			<!-- Included Modules -->
+			
+			<div id="includes-section" class="section">
+				<h3 class="section-header">Included Modules</h3>
+				<ul class="link-list">
+				
+				
+					<li><span class="include">DataMapper::Resource</span></li>
+				
+				
+				</ul>
+			</div>
 			
 		</div>
 
@@ -202,7 +194,7 @@
 	</div>
 
 	<div id="documentation">
-		<h1 class="class">CreateSomeModel</h1>
+		<h1 class="class">SomeDataMapperModel</h1>
 
 		<div id="description">
 			
@@ -216,120 +208,6 @@
 
 		<!-- Methods -->
 		
-		<div id="public-class-method-details" class="method-section section">
-			<h3 class="section-header">Public Class Methods</h3>
-
-		
-			<div id="up-method" class="method-detail ">
-				<a name="method-c-up"></a>
-
-				<div class="method-heading">
-				
-					<span class="method-name">up</span><span
-						class="method-args">()</span>
-					<span class="method-click-advice">click to toggle source</span>
-				
-				</div>
-
-				<div class="method-description">
-					
-					
-					
-
-					
-					<div class="method-source-code"
-						id="up-source">
-<pre>
-   <span class="ruby-comment cmt"># File pkg/despamilator_rails-1.0/spec/test_db_migrations/create_test_model_table.rb, line 4</span>
-4:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">up</span>
-5:     <span class="ruby-identifier">create_table</span> <span class="ruby-value">:some_models</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-6:       <span class="ruby-identifier">t</span>.<span class="ruby-identifier">text</span> <span class="ruby-value">:some_field</span>
-7:     <span class="ruby-keyword kw">end</span>
-8:   <span class="ruby-keyword kw">end</span></pre>
-					</div>
-					
-				</div>
-
-				
-
-				
-			</div>
-
-		
-			<div id="up-method" class="method-detail ">
-				<a name="method-c-up"></a>
-
-				<div class="method-heading">
-				
-					<span class="method-name">up</span><span
-						class="method-args">()</span>
-					<span class="method-click-advice">click to toggle source</span>
-				
-				</div>
-
-				<div class="method-description">
-					
-					
-					
-
-					
-					<div class="method-source-code"
-						id="up-source">
-<pre>
-   <span class="ruby-comment cmt"># File pkg/despamilator_rails-1.0.1/spec/test_db_migrations/create_test_model_table.rb, line 4</span>
-4:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">up</span>
-5:     <span class="ruby-identifier">create_table</span> <span class="ruby-value">:some_models</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-6:       <span class="ruby-identifier">t</span>.<span class="ruby-identifier">text</span> <span class="ruby-value">:some_field</span>
-7:     <span class="ruby-keyword kw">end</span>
-8:   <span class="ruby-keyword kw">end</span></pre>
-					</div>
-					
-				</div>
-
-				
-
-				
-			</div>
-
-		
-			<div id="up-method" class="method-detail ">
-				<a name="method-c-up"></a>
-
-				<div class="method-heading">
-				
-					<span class="method-name">up</span><span
-						class="method-args">()</span>
-					<span class="method-click-advice">click to toggle source</span>
-				
-				</div>
-
-				<div class="method-description">
-					
-					
-					
-
-					
-					<div class="method-source-code"
-						id="up-source">
-<pre>
-   <span class="ruby-comment cmt"># File pkg/despamilator_rails2-1.0.1/spec/test_db_migrations/create_test_model_table.rb, line 4</span>
-4:   <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">up</span>
-5:     <span class="ruby-identifier">create_table</span> <span class="ruby-value">:some_models</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-6:       <span class="ruby-identifier">t</span>.<span class="ruby-identifier">text</span> <span class="ruby-value">:some_field</span>
-7:     <span class="ruby-keyword kw">end</span>
-8:   <span class="ruby-keyword kw">end</span></pre>
-					</div>
-					
-				</div>
-
-				
-
-				
-			</div>
-
-		
-		</div>
-	
 
 	</div>
 

@@ -14,10 +14,6 @@ end
 
 module DespamilatorRails
 
-  # Somewhere (such as your environment.rb...)
-  #
-  #    require 'despamilator_rails'
-  #
   # In your model (basic example):
   #
   #    class YourModel < ActiveRecord::Base
@@ -33,6 +29,9 @@ module DespamilatorRails
   #    your_instance = YourModel.new(:some_field => spammy_value)
   #    your_instance.save
   #    your_instance.errors.full_messages.should #=> ["Some field looks like spam"]
+  #
+  # Note that, by default, DataMapper behaves slightly differently in that it will not raise exceptions
+  # unless you code a callback to deal with that. Instead it will return "false" on an unsuccessful save.
   #
   # If you want to configure the threshold (which defaults to 1) or add your own callback, you can do the following:
   #

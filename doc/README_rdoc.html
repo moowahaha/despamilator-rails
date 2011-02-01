@@ -60,9 +60,7 @@
 
 				<ul class="link-list">
 				
-					<li><a href="./ActiveRecord.html">ActiveRecord</a></li>
-				
-					<li><a href="./ActiveRecord/Base.html">ActiveRecord::Base</a></li>
+					<li><a href="./DespamilatorActiveRecordValidator.html">DespamilatorActiveRecordValidator</a></li>
 				
 					<li><a href="./DespamilatorRails.html">DespamilatorRails</a></li>
 				
@@ -85,9 +83,9 @@ href="https://github.com/moowahaha/despamilator-rails">github.com/moowahaha/desp
 </ul>
 <h2>DESCRIPTION:</h2>
 <p>
-Spam detection plugin for Rails &amp; <a
-href="ActiveRecord.html">ActiveRecord</a>. Uses all the standard Rails
-conventions and my Despamilator gem.
+Spam detection plugin for Rails &amp; ActiveRecord. Uses all the standard
+Rails conventions and my Despamilator gem. This gem only supports Rails 3.
+See despamilator_rails2 for Rails 2 support.
 </p>
 <h2>FEATURES/PROBLEMS:</h2>
 <ul>
@@ -98,12 +96,7 @@ href="http://blog.footle.org/2010/07/29/installing-ruby-1-9-2-via-rvm-on-os-x/">
 </p>
 </li>
 <li><p>
-Stuck with lower version of <a href="ActiveRecord.html">ActiveRecord</a> in
-Gemfile until Hoe is fixed to support newer versions.
-</p>
-</li>
-<li><p>
-DataMapper not yet supported. That&#8217;s on the list!
+Does not support Rails 2. See despamilator_rails2 for support.
 </p>
 </li>
 </ul>
@@ -165,7 +158,7 @@ See the various examples in &#8220;spec/fixtures&#8220;.
 <h2>REQUIREMENTS:</h2>
 <ul>
 <li><p>
-<a href="ActiveRecord.html">ActiveRecord</a> >= 2.3.2
+ActiveRecord >= 2.3.2
 </p>
 </li>
 <li><p>

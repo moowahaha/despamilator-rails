@@ -4,3 +4,4 @@ coverage
 *.gem
 pkg/
 *.sqlite3
+doc/

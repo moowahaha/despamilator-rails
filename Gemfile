@@ -5,7 +5,7 @@ gem 'despamilator', '>= 1.0'
 gem 'activemodel', '>= 3.0.0'
 
 group :test do
-  gem 'activerecord', '>= 3.0.0'
+  gem 'activerecord', '>= 5.2.8.1'
   gem 'dm-migrations', '>= 1.0.2'
   gem 'dm-validations', '>= 1.0.2'
   gem 'dm-sqlite-adapter', '>= 1.0.2'
